@@ -39,9 +39,7 @@ class ModalOperator(bpy.types.Operator):
             return {'CANCELLED'}
 
         elif event.type == 'TIMER':
-            print("TIMER")
             self.server.handle_request()
-            print("-----")
 
         return {'RUNNING_MODAL'}
 
@@ -50,7 +48,7 @@ class ModalOperator(bpy.types.Operator):
         if context.object:
             SERVER_ADDR = 7113
             self.server = OSCServer( ("localhost", SERVER_ADDR) )
-            self.server.timeout = 0
+            self.server.timeout = 0.0001
 
             self.server.addMsgHandler( "/leap/frame/timestamp", self.log_timestamp )
             self.server.addMsgHandler( "/leap/frame/hand/pos", self.move_object )

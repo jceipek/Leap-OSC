@@ -28,8 +28,8 @@ class LeapListener(Leap.Listener):
     def on_frame(self, controller):
         # Get the most recent frame and report some basic information
         frame = controller.frame()
-        print ("Frame id: %d, timestamp: %d, hands: %d, fingers: %d, tools: %d" % (
-                      frame.id, frame.timestamp, len(frame.hands), len(frame.fingers), len(frame.tools)))
+        #print ("Frame id: %d, timestamp: %d, hands: %d, fingers: %d, tools: %d" % (
+        #              frame.id, frame.timestamp, len(frame.hands), len(frame.fingers), len(frame.tools)))
 
         if not frame.hands.empty:
             bundle = OSCBundle()
@@ -46,10 +46,8 @@ class LeapListener(Leap.Listener):
                 #    [hand.id, hand.palm_position[0], hand.palm_position[1], hand.palm_position[2]])
                 #bundle.append(handOrientation)
 
-            try:
-                self.osc_client.send(bundle)
-            except:
-                print("Unable to connect to server!")
+            self.osc_client.send(bundle)
+            #    print("Unable to connect to server!")
                 
 def main():
     # Create a listener and controller
