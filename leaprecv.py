@@ -16,8 +16,8 @@ def handle_timeout(self):
     self.timed_out = True
 
 # funny python's way to add a method to an instance of a class
-import types
-server.handle_timeout = types.MethodType(handle_timeout, server)
+#import types
+#server.handle_timeout = types.MethodType(handle_timeout, server)
 
 def user_callback(path, tags, args, source):
     # which user will be determined by path:
@@ -49,6 +49,7 @@ def each_frame():
     # handle all pending requests then return
     while not server.timed_out:
         server.handle_request()
+        #input()
 
 # simulate a "game engine"
 while run:

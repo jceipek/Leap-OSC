@@ -3,10 +3,11 @@ from OSC import OSCClient, OSCMessage, OSCBundle
 
 SERVER_ADDR = 7113
 
-class SampleListener(Leap.Listener):
+class LeapListener(Leap.Listener):
     def __init__(self, osc_client):
         Leap.Listener.__init__(self)
         self.osc_client = osc_client
+        self.server_running = True
 
     def on_init(self, controller):
         print("Initialized")
@@ -45,19 +46,20 @@ class SampleListener(Leap.Listener):
                 #    [hand.id, hand.palm_position[0], hand.palm_position[1], hand.palm_position[2]])
                 #bundle.append(handOrientation)
 
-            self.osc_client.send(bundle)
-            #self.osc_client.send(handPos)
-
-
+            try:
+                self.osc_client.send(bundle)
+            except:
+                print("Unable to connect to server!")
+                
 def main():
-    # Create a sample listener and controller
-    listener = SampleListener(OSCClient())
+    # Create a listener and controller
+    listener = LeapListener(OSCClient())
     controller = Leap.Controller()
 
-    # Have the sample listener receive events from the controller
+    # Have the listener receive events from the controller
     controller.add_listener(listener)
 
-    # Keep this process running until Enter is pressed
+    # Keep this OSC client running until Enter is pressed
     print("Press Enter to quit...")
     sys.stdin.readline()
 
